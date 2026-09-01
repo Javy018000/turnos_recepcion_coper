@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { leerEstado, escribirEstado } = require('./persistencia');
 
-const SERVICIOS_VALIDOS = ['tramite', 'informacion', 'consulta', 'otro'];
+const SERVICIOS_VALIDOS = ['tramite-ordenes', 'expediente-medico-laboral', 'entrega-ordenes', 'juridica-medicina-laboral'];
 const NUM_PUESTOS = 3;
 
 function fechaHoyBogota() {

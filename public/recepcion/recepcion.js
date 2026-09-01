@@ -31,10 +31,10 @@ const elPinError = document.getElementById('pin-error');
 const botonesPuesto = Array.from(document.querySelectorAll('.btn-puesto'));
 
 const ETIQUETAS_SERVICIO = {
-  'tramite': 'Trámite',
-  'informacion': 'Información',
-  'consulta': 'Consulta',
-  'otro': 'Otro'
+  'tramite-ordenes':           'Trámite de órdenes',
+  'expediente-medico-laboral': 'Expediente médico laboral',
+  'entrega-ordenes':           'Entrega de órdenes',
+  'juridica-medicina-laboral': 'Jurídica medicina laboral'
 };
 
 const ANUNCIO_INFO = {

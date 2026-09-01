@@ -21,10 +21,10 @@ const elBtnVolver        = document.getElementById('btn-volver');
 const elBtnReintentar    = document.getElementById('btn-reintentar');
 
 const ETIQUETAS_SERVICIO = {
-  'tramite':    'Trámite',
-  'informacion':'Información',
-  'consulta':   'Consulta',
-  'otro':       'Otro'
+  'tramite-ordenes':           'Trámite de órdenes',
+  'expediente-medico-laboral': 'Expediente médico laboral',
+  'entrega-ordenes':           'Entrega de órdenes',
+  'juridica-medicina-laboral': 'Jurídica medicina laboral'
 };
 
 let servicioSeleccionado = null;

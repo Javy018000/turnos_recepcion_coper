@@ -84,7 +84,14 @@ Cada puesto se protege con un PIN configurable en `puestos.config.json` (en la r
 
 ## Servicios
 
-Actualmente hay cuatro servicios genéricos: `tramite`, `informacion`, `consulta` y `otro`.
+Actualmente hay cuatro:
+
+| ID | Nombre visible |
+|---|---|
+| `tramite-ordenes` | Trámite de órdenes |
+| `expediente-medico-laboral` | Expediente médico laboral |
+| `entrega-ordenes` | Entrega de órdenes |
+| `juridica-medicina-laboral` | Jurídica medicina laboral |
 
 Para cambiarlos hay que tocar cuatro lugares, y los IDs deben coincidir en todos:
 
