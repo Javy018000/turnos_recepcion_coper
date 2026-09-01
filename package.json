@@ -1,7 +1,7 @@
 {
-  "name": "turnos-hotel",
+  "name": "turnos-recepcion-coper",
   "version": "1.0.0",
-  "description": "Sistema de turnos para recepción de hotel",
+  "description": "Sistema de turnos para recepción — COPER",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",

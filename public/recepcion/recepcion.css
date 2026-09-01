@@ -39,11 +39,9 @@ body {
 }
 
 .logo-img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,0.35);
+  width: auto;
+  height: 46px;
+  object-fit: contain;
 }
 
 .header-texto {
@@ -52,7 +50,7 @@ body {
   gap: 1px;
 }
 
-.hotel-l1 {
+.marca-l1 {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 17px;
   font-weight: 700;
@@ -61,7 +59,7 @@ body {
   text-transform: uppercase;
 }
 
-.hotel-l2 {
+.marca-l2 {
   font-size: 11px;
   letter-spacing: 2px;
   color: rgba(255,255,255,0.70);
@@ -127,11 +125,9 @@ body {
 }
 
 .overlay-puesto-logo {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--rojo);
+  width: auto;
+  height: 76px;
+  object-fit: contain;
   margin-bottom: 18px;
 }
 

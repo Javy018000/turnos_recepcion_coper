@@ -1,13 +1,15 @@
-# Sistema de Turnos – Hotel Plaza
+# Sistema de Turnos – COPER
 
-Sistema de gestión de turnos para la recepción de un hotel. Los huéspedes sacan turno desde una tablet en el lobby, **hasta 3 recepcionistas** controlan una cola compartida desde sus PCs, y una pantalla TV muestra a qué recepción debe dirigirse cada huésped.
+Sistema de gestión de turnos para recepción. Las personas sacan turno desde una tablet
+en la sala de espera, **hasta 3 recepcionistas** controlan una cola compartida desde sus
+PCs, y una pantalla TV muestra a qué recepción debe dirigirse cada persona.
 
 ## Cómo funciona con varios recepcionistas
 
 - Hay **una sola cola** (orden de llegada). Cada recepcionista la atiende desde su propio PC.
 - Al abrir el panel de recepción, cada recepcionista **elige su puesto** (Recepción 1, 2 o 3). La elección se recuerda en ese navegador.
 - Cuando un recepcionista pulsa **"Llamar siguiente"**, el primer turno de la cola se le asigna a *su* puesto. Los demás puestos no se ven afectados.
-- La **TV anuncia el destino**: muestra y dice por voz *"Turno Check-In número 5, diríjase a Recepción 1"*, para que el huésped sepa exactamente a dónde ir.
+- La **TV anuncia el destino**: muestra y dice por voz *"Turno Check-In número 5, diríjase a Recepción 1"*, para que la persona sepa exactamente a dónde ir.
 
 ## Requisitos
 
@@ -61,7 +63,7 @@ Buscar `inet` bajo `en0` o `eth0`.
 | Dispositivo | URL |
 |---|---|
 | PC de cada recepcionista (1, 2 y 3) | `http://<IP-servidor>:3000/recepcion` |
-| Tablet del lobby | `http://<IP-servidor>:3000/tablet` |
+| Tablet de la sala de espera | `http://<IP-servidor>:3000/tablet` |
 | Samsung Smart TV | `http://<IP-servidor>:3000/tv` |
 
 > Los 3 PCs de recepción abren la **misma URL** `/recepcion`. La primera vez, cada uno elige su puesto (Recepción 1/2/3) e ingresa el PIN. Un puesto ya tomado por un equipo no puede ser usado por otro al mismo tiempo.
@@ -80,12 +82,28 @@ Cada puesto se protege con un PIN configurable en `puestos.config.json` (en la r
 
 **Cambia estos PINs antes de usar el sistema en producción.** El recepcionista ingresa el PIN una sola vez por equipo; queda recordado en ese navegador. Para cambiar de puesto, toca el chip "Recepción N" en el encabezado.
 
+## Servicios
+
+Los servicios que la persona puede elegir en la tablet están definidos en cinco lugares y
+los cinco deben coincidir:
+
+| Archivo | Qué define |
+|---|---|
+| `server/turnos.js` → `SERVICIOS_VALIDOS` | Los IDs válidos que acepta el servidor |
+| `server/turnos.js` → `reiniciarDia()` | Contadores que se ponen en cero cada día |
+| `server/persistencia.js` → `contadorServicios` | Contadores del estado inicial |
+| `public/tablet/index.html` → botones `.btn-servicio` | Botones e íconos de la tablet |
+| `ETIQUETAS_SERVICIO` en `tablet.js`, `tv.js` y `recepcion.js` | Nombre visible de cada servicio |
+
+Actualmente son los cuatro heredados del despliegue original: `check-in`, `check-out`,
+`informacion` y `concierge`.
+
 ## Botones del panel de recepción
 
 - **Llamar siguiente** — toma el primer turno de la cola y lo asigna a tu puesto.
-- **Repetir** — vuelve a anunciar por voz en la TV el turno actual (si el huésped no escuchó).
+- **Repetir** — vuelve a anunciar por voz en la TV el turno actual (si la persona no escuchó).
 - **Atendido** — cierra el turno actual como atendido.
-- **Ausente** — cierra el turno actual como ausente (el huésped no se presentó).
+- **Ausente** — cierra el turno actual como ausente (la persona no se presentó).
 
 Ejemplo: si la IP del servidor es `192.168.1.105`, la tablet abre `http://192.168.1.105:3000/tablet`.
 
@@ -95,20 +113,25 @@ Ejemplo: si la IP del servidor es `192.168.1.105`, la tablet abre `http://192.16
 2. Ingresar la URL: `http://<IP-servidor>:3000/tv`
 3. El TV actualiza automáticamente con Socket.IO — no necesita recargar
 
-## Modo kiosco en Android (tablet del lobby)
+## Modo kiosco en Android (tablet de la sala de espera)
 
 1. Ir a **Ajustes → Accesibilidad → Pantalla anclada** (o "Fijar pantalla")
 2. Activar la opción
 3. Abrir Chrome con la URL de la tablet
 4. Mantener presionado el botón de recientes y tocar el ícono de anclaje
 
-## Modo kiosco en iPad (tablet del lobby)
+## Modo kiosco en iPad (tablet de la sala de espera)
 
 1. Ir a **Ajustes → Accesibilidad → Acceso guiado**
 2. Activar "Acceso guiado"
 3. Abrir Safari con la URL de la tablet
 4. Hacer triple clic en el botón de inicio para iniciar el acceso guiado
 5. Tocar "Iniciar"
+
+## Marca
+
+- Logo: `public/assets/logo.png` (escudo COPER, PNG con fondo transparente).
+- El nombre visible está en el encabezado de las tres vistas: `public/*/index.html`.
 
 ## Datos persistentes
 

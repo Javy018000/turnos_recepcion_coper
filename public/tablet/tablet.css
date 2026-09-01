@@ -57,21 +57,19 @@ body {
 }
 
 .logo-img {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--rojo);
+  width: auto;
+  height: 84px;
+  object-fit: contain;
 }
 
-.hotel-titulo {
+.marca-titulo {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
 }
 
-.hotel-l1 {
+.marca-l1 {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 20px;
   font-weight: 700;
@@ -80,7 +78,7 @@ body {
   text-transform: uppercase;
 }
 
-.hotel-l2 {
+.marca-l2 {
   font-size: 11px;
   letter-spacing: 3px;
   color: var(--gris2);
