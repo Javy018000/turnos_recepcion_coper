@@ -24,7 +24,7 @@ const ETIQUETAS_SERVICIO = {
   'tramite-ordenes':           'Trámite de órdenes',
   'expediente-medico-laboral': 'Expediente médico laboral',
   'entrega-ordenes':           'Entrega de órdenes',
-  'juridica-medicina-laboral': 'Jurídica medicina laboral'
+  'juridica':                  'Jurídica'
 };
 
 let servicioSeleccionado = null;

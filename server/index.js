@@ -25,25 +25,15 @@ const io = new Server(server, {
   cors: { origin: '*' }
 });
 
-// ── Configuración de puestos (PIN por recepción) ──
-const PUESTOS_DEFAULT = { '1': { pin: '1111' }, '2': { pin: '2222' }, '3': { pin: '3333' } };
-function cargarConfigPuestos() {
-  try {
-    const ruta = path.join(__dirname, '../puestos.config.json');
-    return JSON.parse(fs.readFileSync(ruta, 'utf8'));
-  } catch (e) {
-    console.warn('[server] No se pudo leer puestos.config.json, usando PINs por defecto:', e.message);
-    return PUESTOS_DEFAULT;
-  }
-}
-const PUESTOS_CONFIG = cargarConfigPuestos();
+// ── Configuración de puestos (PIN por recepción), leída en server/puestos.js ──
+const { CONFIG: PUESTOS_CONFIG, CLAVES: PUESTOS_CLAVES } = require('./puestos');
 
 // ── Control de ocupación: qué socket tiene tomado cada puesto ──
 const puestoOcupado = {}; // { '1': socketId }
 
 function ocupacionActual() {
   const r = {};
-  for (const clave of Object.keys(PUESTOS_CONFIG)) {
+  for (const clave of PUESTOS_CLAVES) {
     const holder = puestoOcupado[clave];
     r[clave] = !!(holder && io.sockets.sockets.has(holder));
   }

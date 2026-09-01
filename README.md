@@ -1,15 +1,18 @@
 # Sistema de Turnos – COPER
 
 Sistema de gestión de turnos para recepción. Las personas sacan turno desde una tablet
-en la sala de espera, **hasta 3 recepcionistas** controlan una cola compartida desde sus
+en la sala de espera, **varios recepcionistas** controlan una cola compartida desde sus
 PCs, y una pantalla TV muestra a qué recepción debe dirigirse cada persona.
+
+Hoy hay **9 recepciones** configuradas. El número no está fijo en el código: sale de
+`puestos.config.json` (ver *Recepciones y PIN* más abajo).
 
 ## Cómo funciona con varios recepcionistas
 
 - Hay **una sola cola** (orden de llegada). Cada recepcionista la atiende desde su propio PC.
-- Al abrir el panel de recepción, cada recepcionista **elige su puesto** (Recepción 1, 2 o 3). La elección se recuerda en ese navegador.
+- Al abrir el panel de recepción, cada recepcionista **elige su puesto** (Recepción 1 a 9). La elección se recuerda en ese navegador.
 - Cuando un recepcionista pulsa **"Llamar siguiente"**, el primer turno de la cola se le asigna a *su* puesto. Los demás puestos no se ven afectados.
-- La **TV anuncia el destino**: muestra y dice por voz *"Turno Trámite número 5, diríjase a Recepción 1"*, para que la persona sepa exactamente a dónde ir.
+- La **TV anuncia el destino**: muestra y dice por voz *"Turno Trámite de órdenes número 5, diríjase a Recepción 7"*, para que la persona sepa exactamente a dónde ir.
 
 ## Requisitos
 
@@ -62,25 +65,44 @@ Buscar `inet` bajo `en0` o `eth0`.
 
 | Dispositivo | URL |
 |---|---|
-| PC de cada recepcionista (1, 2 y 3) | `http://<IP-servidor>:3000/recepcion` |
+| PC de cada recepcionista (1 a 9) | `http://<IP-servidor>:3000/recepcion` |
 | Tablet de la sala de espera | `http://<IP-servidor>:3000/tablet` |
 | Samsung Smart TV | `http://<IP-servidor>:3000/tv` |
 
-> Los 3 PCs de recepción abren la **misma URL** `/recepcion`. La primera vez, cada uno elige su puesto (Recepción 1/2/3) e ingresa el PIN. Un puesto ya tomado por un equipo no puede ser usado por otro al mismo tiempo.
+> Todos los PCs de recepción abren la **misma URL** `/recepcion`. La primera vez, cada uno elige su puesto e ingresa el PIN. Un puesto ya tomado por un equipo no puede ser usado por otro al mismo tiempo.
 
-## PIN de cada recepción
+## Recepciones y PIN
 
-Cada puesto se protege con un PIN configurable en `puestos.config.json` (en la raíz del proyecto):
+`puestos.config.json` (en la raíz del proyecto) decide **cuántas recepciones hay** y con qué
+PIN entra cada una. Es el único lugar donde se define: una entrada por recepción.
 
 ```json
 {
   "1": { "pin": "1111" },
   "2": { "pin": "2222" },
-  "3": { "pin": "3333" }
+  "3": { "pin": "3333" },
+  "4": { "pin": "4444" },
+  "5": { "pin": "5555" },
+  "6": { "pin": "6666" },
+  "7": { "pin": "7777" },
+  "8": { "pin": "8888" },
+  "9": { "pin": "9999" }
 }
 ```
 
-**Cambia estos PINs antes de usar el sistema en producción.** El recepcionista ingresa el PIN una sola vez por equipo; queda recordado en ese navegador. Para cambiar de puesto, toca el chip "Recepción N" en el encabezado.
+Para agregar o quitar recepciones, edita este archivo y reinicia el servidor. No hay que
+tocar HTML ni CSS: los botones del selector y las tarjetas del panel se dibujan con lo que
+diga la configuración. La clave puede ser cualquier texto (`"1"`, `"A"`, `"Caja 1"`); es lo
+que se muestra como *"Recepción X"* y lo que anuncia la TV.
+
+Al arrancar, el servidor ajusta `data/state.json` a la nueva configuración: crea vacías las
+recepciones nuevas y conserva el turno activo de las que siguen existiendo. Si quitas una
+recepción que tenía un turno en atención, ese turno **vuelve al inicio de la cola** en vez
+de perderse (queda anotado en la consola).
+
+**Cambia estos PINs antes de usar el sistema en producción.** El recepcionista ingresa el
+PIN una sola vez por equipo; queda recordado en ese navegador. Para cambiar de puesto, toca
+el chip "Recepción N" en el encabezado.
 
 ## Servicios
 
@@ -91,15 +113,33 @@ Actualmente hay cuatro:
 | `tramite-ordenes` | Trámite de órdenes |
 | `expediente-medico-laboral` | Expediente médico laboral |
 | `entrega-ordenes` | Entrega de órdenes |
-| `juridica-medicina-laboral` | Jurídica medicina laboral |
+| `juridica` | Jurídica |
 
-Para cambiarlos hay que tocar cuatro lugares, y los IDs deben coincidir en todos:
+### Solo cambiar el texto que se ve
+
+Si el nombre visible cambia pero el servicio es el mismo, se toca **una línea en cada uno de
+estos tres archivos**, dejando el ID intacto:
+
+- `public/tablet/index.html` → el `<span class="btn-label">` del botón
+- `public/tablet/tablet.js`, `public/tv/tv.js`, `public/recepcion/recepcion.js` → el valor
+  en `ETIQUETAS_SERVICIO`
+
+Ejemplo: para que "Jurídica" pase a decir "Asesoría jurídica", se cambia el texto del botón
+en el HTML y el valor `'juridica': 'Jurídica'` en las tres tablas. El ID `juridica` no se
+toca, así que los turnos ya creados y sus contadores siguen funcionando.
+
+### Agregar, quitar o renombrar el ID de un servicio
+
+Si cambia el catálogo en sí, hay tres lugares y los IDs deben coincidir en todos:
 
 | Archivo | Qué define |
 |---|---|
 | `server/turnos.js` → `SERVICIOS_VALIDOS` | El catálogo. Los contadores se derivan de esta lista |
 | `public/tablet/index.html` → botones `.btn-servicio` | Botones e íconos de la tablet |
 | `ETIQUETAS_SERVICIO` en `tablet.js`, `tv.js` y `recepcion.js` | Nombre visible de cada servicio |
+
+Los botones de la tablet están en una cuadrícula 2×2, así que cuatro servicios es lo que
+entra sin retocar el CSS.
 
 El servidor tolera el cambio sin borrar nada: al arrancar, `normalizar()` crea un contador
 en cero para cada servicio nuevo y descarta los de servicios que ya no existen, así que un

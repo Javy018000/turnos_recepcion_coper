@@ -28,13 +28,13 @@ const elPinLabel = document.getElementById('pin-label');
 const elInputPin = document.getElementById('input-pin');
 const elBtnEntrarPuesto = document.getElementById('btn-entrar-puesto');
 const elPinError = document.getElementById('pin-error');
-const botonesPuesto = Array.from(document.querySelectorAll('.btn-puesto'));
+const elPuestoBotones = document.getElementById('overlay-puesto-botones');
 
 const ETIQUETAS_SERVICIO = {
   'tramite-ordenes':           'Trámite de órdenes',
   'expediente-medico-laboral': 'Expediente médico laboral',
   'entrega-ordenes':           'Entrega de órdenes',
-  'juridica-medicina-laboral': 'Jurídica medicina laboral'
+  'juridica':                  'Jurídica'
 };
 
 const ANUNCIO_INFO = {
@@ -96,7 +96,7 @@ function abrirSelectorPuesto() {
   elOverlayPuesto.classList.remove('oculto');
   elPinZona.classList.add('oculto');
   puestoElegido = null;
-  botonesPuesto.forEach(b => b.classList.remove('seleccionado'));
+  renderBotonesPuesto();
 }
 
 function mostrarPinError(msg) {
@@ -107,28 +107,39 @@ function ocultarPinError() {
   elPinError.classList.add('oculto');
 }
 
-function renderOcupacion() {
-  botonesPuesto.forEach(btn => {
-    const clave = btn.dataset.puesto;
+// Cuántas recepciones hay lo decide puestos.config.json en el servidor; la
+// lista llega en el mapa de ocupación, así que los botones se dibujan con ella
+// en vez de estar escritos en el HTML.
+function renderBotonesPuesto() {
+  const claves = Object.keys(ocupacion);
+  if (claves.length === 0) {
+    elPuestoBotones.innerHTML = '<p class="puestos-cargando">Cargando recepciones...</p>';
+    return;
+  }
+  elPuestoBotones.innerHTML = claves.map(clave => {
     const ocupado = !!ocupacion[clave] && clave !== miPuesto;
-    const estadoSpan = btn.querySelector('.btn-puesto-estado');
-    btn.disabled = ocupado;
-    btn.classList.toggle('ocupado', ocupado);
-    if (estadoSpan) estadoSpan.textContent = ocupado ? 'En uso' : 'Disponible';
-  });
+    const clases = ['btn-puesto'];
+    if (ocupado) clases.push('ocupado');
+    if (clave === puestoElegido) clases.push('seleccionado');
+    return `
+      <button class="${clases.join(' ')}" data-puesto="${escapar(clave)}" ${ocupado ? 'disabled' : ''}>
+        <i class="ti ti-user"></i>
+        <span class="btn-puesto-nombre">Recepción ${escapar(clave)}</span>
+        <span class="btn-puesto-estado">${ocupado ? 'En uso' : 'Disponible'}</span>
+      </button>`;
+  }).join('');
 }
 
-botonesPuesto.forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.disabled) return;
-    puestoElegido = btn.dataset.puesto;
-    botonesPuesto.forEach(b => b.classList.toggle('seleccionado', b === btn));
-    elPinLabel.textContent = `PIN de Recepción ${puestoElegido}`;
-    elInputPin.value = '';
-    ocultarPinError();
-    elPinZona.classList.remove('oculto');
-    setTimeout(() => elInputPin.focus(), 100);
-  });
+elPuestoBotones.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-puesto');
+  if (!btn || btn.disabled) return;
+  puestoElegido = btn.dataset.puesto;
+  renderBotonesPuesto();
+  elPinLabel.textContent = `PIN de Recepción ${puestoElegido}`;
+  elInputPin.value = '';
+  ocultarPinError();
+  elPinZona.classList.remove('oculto');
+  setTimeout(() => elInputPin.focus(), 100);
 });
 
 function enviarPin() {
@@ -160,7 +171,7 @@ elPuestoChip.addEventListener('click', () => {
 
 socket.on('puestos:ocupacion', (mapa) => {
   ocupacion = mapa || {};
-  renderOcupacion();
+  renderBotonesPuesto();
 });
 
 socket.on('puesto:reclamado', ({ puesto }) => {
@@ -187,9 +198,11 @@ socket.on('puesto:rechazado', ({ motivo }) => {
   reintentos = 0;
   miPuesto = null;
   if (estadoActual) renderizarEstado(estadoActual);
+  const reintentar = puestoElegido;
   abrirSelectorPuesto();
-  if (puestoElegido) {
-    botonesPuesto.forEach(b => b.classList.toggle('seleccionado', b.dataset.puesto === puestoElegido));
+  if (reintentar) {
+    puestoElegido = reintentar;
+    renderBotonesPuesto();
     elPinZona.classList.remove('oculto');
   }
   mostrarPinError(motivo || 'No se pudo tomar el puesto');

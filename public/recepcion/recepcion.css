@@ -124,8 +124,10 @@ body {
   padding: 48px 56px;
   border-top: 5px solid var(--oro);
   box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-  max-width: 540px;
+  max-width: 600px;
   width: 90%;
+  max-height: 92vh;
+  overflow-y: auto;
 }
 
 .overlay-puesto-logo {
@@ -160,8 +162,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 28px 12px;
-  font-size: 16px;
+  padding: 18px 10px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--texto);
   background: var(--fondo);
@@ -252,6 +254,11 @@ body {
   font-weight: 600;
 }
 
+.puestos-cargando {
+  font-size: 14px;
+  color: var(--gris);
+}
+
 @media (max-width: 520px) {
   .overlay-puesto-botones { grid-template-columns: 1fr; }
 }
@@ -276,7 +283,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 14px 8px;
+  padding: 10px 6px;
   background: var(--fondo);
   border: 1px solid var(--borde);
   border-radius: 6px;
@@ -333,7 +340,7 @@ body {
 /* ── LAYOUT ── */
 .layout {
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 1fr 420px;
   gap: 24px;
   padding: 28px 32px;
   max-width: 1400px;

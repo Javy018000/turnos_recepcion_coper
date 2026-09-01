@@ -14,23 +14,8 @@
       <img src="/assets/logo.png" alt="COPER" class="overlay-puesto-logo">
       <p class="overlay-puesto-titulo">¿En qué recepción estás?</p>
       <p class="overlay-puesto-sub">Selecciona tu puesto e ingresa el PIN</p>
-      <div class="overlay-puesto-botones">
-        <button class="btn-puesto" data-puesto="1">
-          <i class="ti ti-user"></i>
-          <span class="btn-puesto-nombre">Recepción 1</span>
-          <span class="btn-puesto-estado">Disponible</span>
-        </button>
-        <button class="btn-puesto" data-puesto="2">
-          <i class="ti ti-user"></i>
-          <span class="btn-puesto-nombre">Recepción 2</span>
-          <span class="btn-puesto-estado">Disponible</span>
-        </button>
-        <button class="btn-puesto" data-puesto="3">
-          <i class="ti ti-user"></i>
-          <span class="btn-puesto-nombre">Recepción 3</span>
-          <span class="btn-puesto-estado">Disponible</span>
-        </button>
-      </div>
+      <!-- Se llena desde recepcion.js con las recepciones de puestos.config.json -->
+      <div id="overlay-puesto-botones" class="overlay-puesto-botones"></div>
 
       <div id="puesto-pin-zona" class="puesto-pin-zona oculto">
         <label id="pin-label" class="pin-label" for="input-pin">PIN de Recepción</label>

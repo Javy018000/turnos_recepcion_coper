@@ -1,17 +1,16 @@
 const { v4: uuidv4 } = require('uuid');
 const { leerEstado, escribirEstado } = require('./persistencia');
+const { CLAVES: PUESTOS } = require('./puestos');
 
-const SERVICIOS_VALIDOS = ['tramite-ordenes', 'expediente-medico-laboral', 'entrega-ordenes', 'juridica-medicina-laboral'];
-const NUM_PUESTOS = 3;
-
+const SERVICIOS_VALIDOS = ['tramite-ordenes', 'expediente-medico-laboral', 'entrega-ordenes', 'juridica'];
 function fechaHoyBogota() {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
 }
 
 function puestosVacios() {
   const puestos = {};
-  for (let i = 1; i <= NUM_PUESTOS; i++) {
-    puestos[String(i)] = { turnoActivo: null };
+  for (const clave of PUESTOS) {
+    puestos[clave] = { turnoActivo: null };
   }
   return puestos;
 }
@@ -27,15 +26,29 @@ function contadoresVacios(previos = {}) {
   return contadores;
 }
 
+// Deja est.puestos igual a lo que declara puestos.config.json: conserva el
+// turno activo de las recepciones que siguen existiendo, crea vacías las
+// nuevas y devuelve a la cola el turno de una que se haya eliminado, para no
+// perderlo al reducir el número de recepciones.
+function sincronizarPuestos(est) {
+  const previos = (est.puestos && typeof est.puestos === 'object') ? est.puestos : {};
+  const puestos = {};
+  for (const clave of PUESTOS) {
+    puestos[clave] = { turnoActivo: (previos[clave] && previos[clave].turnoActivo) || null };
+  }
+  for (const [clave, previo] of Object.entries(previos)) {
+    if (puestos[clave] || !previo || !previo.turnoActivo) continue;
+    const turno = previo.turnoActivo;
+    console.warn(`[turnos] Recepción ${clave} ya no está configurada: su turno ${turno.servicio} N° ${turno.numero} vuelve al inicio de la cola`);
+    est.cola.unshift(turno);
+  }
+  est.puestos = puestos;
+}
+
 // Garantiza que el estado leído tenga la forma esperada (migra estados antiguos)
 function normalizar(est) {
-  if (!est.puestos || typeof est.puestos !== 'object') {
-    est.puestos = puestosVacios();
-  }
-  for (let i = 1; i <= NUM_PUESTOS; i++) {
-    const clave = String(i);
-    if (!est.puestos[clave]) est.puestos[clave] = { turnoActivo: null };
-  }
+  if (!Array.isArray(est.cola)) est.cola = [];
+  sincronizarPuestos(est);
   if (typeof est.ausentesHoy !== 'number') est.ausentesHoy = 0;
   est.contadorServicios = contadoresVacios(est.contadorServicios);
   return est;
@@ -187,4 +200,4 @@ async function cancelarTurno(id) {
   return turno;
 }
 
-module.exports = { inicializar, verificarReset, obtenerEstado, crearTurno, llamarSiguiente, marcarAtendido, marcarAusente, actualizarAnuncio, cancelarTurno, NUM_PUESTOS };
+module.exports = { inicializar, verificarReset, obtenerEstado, crearTurno, llamarSiguiente, marcarAtendido, marcarAusente, actualizarAnuncio, cancelarTurno };
