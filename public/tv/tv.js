@@ -7,10 +7,10 @@ const elConexion = document.getElementById('estado-conexion');
 const elReloj    = document.getElementById('reloj');
 
 const ETIQUETAS_SERVICIO = {
-  'check-in':   'Check-In',
-  'check-out':  'Check-Out',
+  'tramite':    'Trámite',
   'informacion':'Información',
-  'concierge':  'Concierge'
+  'consulta':   'Consulta',
+  'otro':       'Otro'
 };
 
 function escapar(texto) {

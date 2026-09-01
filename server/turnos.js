@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { leerEstado, escribirEstado } = require('./persistencia');
 
-const SERVICIOS_VALIDOS = ['check-in', 'check-out', 'informacion', 'concierge'];
+const SERVICIOS_VALIDOS = ['tramite', 'informacion', 'consulta', 'otro'];
 const NUM_PUESTOS = 3;
 
 function fechaHoyBogota() {
@@ -16,6 +16,17 @@ function puestosVacios() {
   return puestos;
 }
 
+// Un contador por servicio del catálogo. Conserva los valores que ya traía el
+// estado guardado y descarta los de servicios que salieron del catálogo, para
+// que cambiar SERVICIOS_VALIDOS no rompa un state.json existente.
+function contadoresVacios(previos = {}) {
+  const contadores = {};
+  for (const servicio of SERVICIOS_VALIDOS) {
+    contadores[servicio] = typeof previos[servicio] === 'number' ? previos[servicio] : 0;
+  }
+  return contadores;
+}
+
 // Garantiza que el estado leído tenga la forma esperada (migra estados antiguos)
 function normalizar(est) {
   if (!est.puestos || typeof est.puestos !== 'object') {
@@ -26,6 +37,7 @@ function normalizar(est) {
     if (!est.puestos[clave]) est.puestos[clave] = { turnoActivo: null };
   }
   if (typeof est.ausentesHoy !== 'number') est.ausentesHoy = 0;
+  est.contadorServicios = contadoresVacios(est.contadorServicios);
   return est;
 }
 
@@ -46,7 +58,7 @@ async function verificarReset() {
   console.log(`[turnos] Nuevo día detectado (${estado.fecha} → ${hoy}), reseteando estado`);
   estado.cola = [];
   estado.puestos = puestosVacios();
-  estado.contadorServicios = { 'check-in': 0, 'check-out': 0, 'informacion': 0, 'concierge': 0 };
+  estado.contadorServicios = contadoresVacios();
   estado.atendidosHoy = 0;
   estado.ausentesHoy = 0;
   estado.fecha = hoy;

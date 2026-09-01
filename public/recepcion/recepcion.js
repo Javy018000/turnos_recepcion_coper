@@ -31,10 +31,10 @@ const elPinError = document.getElementById('pin-error');
 const botonesPuesto = Array.from(document.querySelectorAll('.btn-puesto'));
 
 const ETIQUETAS_SERVICIO = {
-  'check-in': 'Check-In',
-  'check-out': 'Check-Out',
+  'tramite': 'Trámite',
   'informacion': 'Información',
-  'concierge': 'Concierge'
+  'consulta': 'Consulta',
+  'otro': 'Otro'
 };
 
 const ANUNCIO_INFO = {

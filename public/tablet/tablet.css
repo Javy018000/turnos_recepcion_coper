@@ -1,8 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --rojo:       #C41E1E;
-  --rojo-hover: #A51818;
+  --oro:        #F7B101;
+  --oro-hover:  #C98F00;
+  --oro-claro:  #F4D66E;
+  --peligro:    #C41E1E;
   --negro:      #0A0A0A;
   --oscuro:     #141414;
   --oscuro2:    #1E1E1E;
@@ -124,19 +126,19 @@ body {
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 4px;
-  background: var(--rojo);
+  background: var(--oro);
   border-radius: 2px 0 0 2px;
 }
 
 .btn-servicio:active {
   background: var(--oscuro3);
-  border-color: var(--rojo);
+  border-color: var(--oro);
   transform: scale(0.97);
 }
 
 .icono-servicio {
   font-size: 56px;
-  color: var(--rojo);
+  color: var(--oro);
   line-height: 1;
 }
 
@@ -155,7 +157,7 @@ body {
 }
 
 .estado-conectado    { color: #4ade80; font-size: 12px; letter-spacing: 1px; }
-.estado-desconectado { color: var(--rojo); font-size: 12px; letter-spacing: 1px; }
+.estado-desconectado { color: var(--peligro); font-size: 12px; letter-spacing: 1px; }
 
 /* ── FORMULARIO NOMBRE ── */
 #pantalla-formulario {
@@ -194,18 +196,18 @@ body {
   transition: border-color 0.15s, color 0.15s;
 }
 
-.btn-volver-mini:active { border-color: var(--rojo); color: var(--blanco); }
+.btn-volver-mini:active { border-color: var(--oro); color: var(--blanco); }
 
 .form-servicio-badge {
   display: inline-block;
   padding: 6px 20px;
-  background: var(--rojo);
+  background: var(--oro);
   border-radius: 2px;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--blanco);
+  color: var(--negro);
   align-self: flex-start;
 }
 
@@ -229,7 +231,7 @@ body {
   user-select: text;
 }
 
-.requerido { color: var(--rojo); }
+.requerido { color: var(--peligro); }
 .opcional  { color: var(--gris); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; }
 
 .form-input {
@@ -249,7 +251,7 @@ body {
 }
 
 .form-input::placeholder { color: var(--gris); }
-.form-input:focus { border-color: var(--rojo); }
+.form-input:focus { border-color: var(--oro); }
 .form-input.error { border-color: #ef4444; }
 
 .form-error {
@@ -266,8 +268,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: var(--rojo);
-  color: var(--blanco);
+  background: var(--oro);
+  color: var(--negro);
   border: none;
   border-radius: 4px;
   padding: 20px 32px;
@@ -280,7 +282,7 @@ body {
   margin-top: 8px;
 }
 
-.btn-confirmar:active { background: var(--rojo-hover); transform: scale(0.98); }
+.btn-confirmar:active { background: var(--oro-hover); transform: scale(0.98); }
 
 /* ── CONFIRMACIÓN ── */
 #pantalla-confirmacion {
@@ -298,7 +300,7 @@ body {
 
 .conf-check {
   font-size: 72px;
-  color: var(--rojo);
+  color: var(--oro);
   margin-bottom: 12px;
   line-height: 1;
 }
@@ -323,13 +325,13 @@ body {
   display: inline-block;
   margin: 12px auto 0;
   padding: 6px 24px;
-  background: var(--rojo);
+  background: var(--oro);
   border-radius: 2px;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--blanco);
+  color: var(--negro);
 }
 
 .conf-espera-texto {
@@ -356,7 +358,7 @@ body {
 }
 
 .btn-volver:active {
-  border-color: var(--rojo);
+  border-color: var(--oro);
   color: var(--blanco);
 }
 
@@ -376,7 +378,7 @@ body {
 
 .error-contenido { text-align: center; }
 
-.error-icono { font-size: 72px; color: var(--rojo); display: block; margin-bottom: 20px; line-height: 1; }
+.error-icono { font-size: 72px; color: var(--peligro); display: block; margin-bottom: 20px; line-height: 1; }
 
 .error-texto {
   font-size: 20px;

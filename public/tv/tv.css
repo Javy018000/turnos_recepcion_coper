@@ -1,7 +1,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --rojo:    #C41E1E;
+  --oro:       #F7B101;
+  --oro-claro: #F4D66E;
+  --peligro:   #C41E1E;
   --negro:   #0A0A0A;
   --oscuro:  #121212;
   --oscuro2: #1C1C1C;
@@ -44,7 +46,7 @@ body {
   text-align: center;
   padding: 48px 64px;
   background: var(--oscuro2);
-  border: 3px solid var(--rojo);
+  border: 3px solid var(--oro);
   border-radius: 18px;
 }
 
@@ -69,7 +71,7 @@ body {
   align-items: center;
   padding: 0 36px;
   background: var(--oscuro);
-  border-bottom: 3px solid var(--rojo);
+  border-bottom: 3px solid var(--oro);
 }
 
 .header-izq { display: flex; align-items: center; }
@@ -133,7 +135,7 @@ body {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 5px;
-  color: var(--rojo);
+  color: var(--oro);
   text-transform: uppercase;
   margin-bottom: 18px;
   text-align: center;
@@ -162,7 +164,7 @@ body {
 }
 
 .llamado.destacado {
-  border-left-color: var(--rojo);
+  border-left-color: var(--oro);
   animation: pulso 1s ease-in-out 0s 4;
 }
 
@@ -226,7 +228,7 @@ body {
   font-size: 40px;
   font-weight: 900;
   letter-spacing: 2px;
-  color: var(--rojo);
+  color: var(--oro);
   white-space: nowrap;
 }
 
@@ -322,4 +324,4 @@ body {
 }
 
 .estado-conectado   { color: #4ade80; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
-.estado-desconectado { color: var(--rojo); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+.estado-desconectado { color: var(--peligro); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }

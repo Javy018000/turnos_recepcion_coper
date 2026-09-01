@@ -1,8 +1,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --rojo:       #C41E1E;
-  --rojo-hover: #A51818;
+  --oro:           #F7B101;
+  --oro-hover:     #C98F00;
+  --oro-texto:     #8A6A10;
+  --oro-tinte:     #FFFBF0;
+  --peligro:       #C41E1E;
+  --peligro-hover: #A51818;
   --negro:      #0D0D0D;
   --oscuro:     #1A1A1A;
   --blanco:     #FFFFFF;
@@ -28,7 +32,7 @@ body {
   align-items: center;
   padding: 0 32px;
   height: 68px;
-  background: var(--rojo);
+  background: var(--oro);
   border-bottom: 3px solid var(--negro);
 }
 
@@ -55,14 +59,14 @@ body {
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 3px;
-  color: var(--blanco);
+  color: var(--negro);
   text-transform: uppercase;
 }
 
 .marca-l2 {
   font-size: 11px;
   letter-spacing: 2px;
-  color: rgba(255,255,255,0.70);
+  color: rgba(0,0,0,0.68);
   text-transform: uppercase;
 }
 
@@ -80,17 +84,17 @@ body {
   color: rgba(255,255,255,0.55);
 }
 
-.estado-conectado   { color: #86efac; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
-.estado-desconectado { color: #fca5a5; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
+.estado-conectado   { color: #14532D; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
+.estado-desconectado { color: #7F1D1D; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
 
 /* ── CHIP DE PUESTO ── */
 .mi-puesto-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,255,255,0.15);
-  color: var(--blanco);
-  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.12);
+  color: var(--negro);
+  border: 1px solid rgba(0,0,0,0.30);
   border-radius: 9999px;
   padding: 4px 14px;
   font-size: 13px;
@@ -99,7 +103,7 @@ body {
   cursor: pointer;
   transition: background 0.15s;
 }
-.mi-puesto-chip:hover { background: rgba(255,255,255,0.28); }
+.mi-puesto-chip:hover { background: rgba(0,0,0,0.22); }
 
 /* ── OVERLAY SELECCIÓN DE PUESTO ── */
 .overlay-puesto {
@@ -118,7 +122,7 @@ body {
   background: var(--blanco);
   border-radius: 10px;
   padding: 48px 56px;
-  border-top: 5px solid var(--rojo);
+  border-top: 5px solid var(--oro);
   box-shadow: 0 24px 64px rgba(0,0,0,0.5);
   max-width: 540px;
   width: 90%;
@@ -166,8 +170,8 @@ body {
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, transform 0.1s;
 }
-.btn-puesto i { font-size: 30px; color: var(--rojo); }
-.btn-puesto:hover:not(:disabled) { border-color: var(--rojo); background: #fff5f5; }
+.btn-puesto i { font-size: 30px; color: var(--oro-texto); }
+.btn-puesto:hover:not(:disabled) { border-color: var(--oro); background: var(--oro-tinte); }
 .btn-puesto:active:not(:disabled) { transform: scale(0.97); }
 
 .btn-puesto-nombre { font-size: 16px; font-weight: 700; }
@@ -180,9 +184,9 @@ body {
 }
 
 .btn-puesto.seleccionado {
-  border-color: var(--rojo);
-  background: #fff5f5;
-  box-shadow: 0 0 0 3px rgba(196,30,30,0.15);
+  border-color: var(--oro);
+  background: var(--oro-tinte);
+  box-shadow: 0 0 0 3px rgba(247,177,1,0.35);
 }
 
 .btn-puesto.ocupado {
@@ -191,7 +195,7 @@ body {
   background: var(--fondo2);
 }
 .btn-puesto.ocupado i { color: var(--gris2); }
-.btn-puesto.ocupado .btn-puesto-estado { color: var(--rojo); }
+.btn-puesto.ocupado .btn-puesto-estado { color: var(--peligro); }
 
 /* Zona de PIN */
 .puesto-pin-zona {
@@ -222,14 +226,14 @@ body {
   border-radius: 8px;
   outline: none;
 }
-.pin-input:focus { border-color: var(--rojo); }
+.pin-input:focus { border-color: var(--oro); }
 
 .btn-entrar-puesto {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--rojo);
-  color: var(--blanco);
+  background: var(--oro);
+  color: var(--negro);
   border: none;
   border-radius: 8px;
   padding: 12px 32px;
@@ -240,10 +244,10 @@ body {
   cursor: pointer;
   transition: background 0.15s;
 }
-.btn-entrar-puesto:hover { background: var(--rojo-hover); }
+.btn-entrar-puesto:hover { background: var(--oro-hover); }
 
 .pin-error {
-  color: var(--rojo);
+  color: var(--peligro);
   font-size: 13px;
   font-weight: 600;
 }
@@ -279,8 +283,8 @@ body {
   text-align: center;
 }
 
-.puesto-card-mio { border-color: var(--rojo); border-width: 2px; }
-.puesto-card-ocupado { background: #fff5f5; }
+.puesto-card-mio { border-color: var(--oro); border-width: 2px; }
+.puesto-card-ocupado { background: var(--oro-tinte); }
 
 .puesto-card-titulo {
   font-size: 10px;
@@ -293,7 +297,7 @@ body {
 .puesto-card-num {
   font-size: 30px;
   font-weight: 900;
-  color: var(--rojo);
+  color: var(--oro-texto);
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
 }
@@ -351,8 +355,8 @@ body {
 }
 
 .badge {
-  background: var(--rojo);
-  color: var(--blanco);
+  background: var(--oro);
+  color: var(--negro);
   border-radius: 9999px;
   padding: 2px 10px;
   font-size: 12px;
@@ -388,7 +392,7 @@ body {
 .cola-numero-badge {
   font-size: 32px;
   font-weight: 800;
-  color: var(--rojo);
+  color: var(--oro-texto);
   min-width: 52px;
   font-variant-numeric: tabular-nums;
 }
@@ -418,7 +422,7 @@ body {
 }
 
 .cola-hora   { font-size: 12px; color: var(--gris2); }
-.cola-espera { font-size: 12px; color: var(--rojo); font-weight: 600; }
+.cola-espera { font-size: 12px; color: var(--oro-texto); font-weight: 600; }
 
 .btn-cancelar {
   background: none;
@@ -431,7 +435,7 @@ body {
   transition: color 0.15s, background 0.15s;
 }
 
-.btn-cancelar:hover { color: var(--rojo); background: #fef2f2; }
+.btn-cancelar:hover { color: var(--peligro); background: #fef2f2; }
 
 .cola-vacia {
   text-align: center;
@@ -451,7 +455,7 @@ body {
   border-radius: 4px;
   padding: 28px 24px;
   text-align: center;
-  border-left: 4px solid var(--rojo);
+  border-left: 4px solid var(--oro);
 }
 
 .card-etiqueta {
@@ -501,7 +505,7 @@ body {
 }
 
 .anuncio-espera   { background: #78350F; color: #FCD34D; }
-.anuncio-llamando { background: var(--rojo); color: var(--blanco); animation: anuncio-pulso 1.1s ease-in-out infinite; }
+.anuncio-llamando { background: var(--oro); color: var(--negro); animation: anuncio-pulso 1.1s ease-in-out infinite; }
 .anuncio-listo    { background: #14532D; color: #86EFAC; }
 
 @keyframes anuncio-pulso {
@@ -523,7 +527,7 @@ body {
   line-height: 1.4;
 }
 .puesto-card-anuncio.anuncio-espera   { background: #FEF3C7; color: #92400E; }
-.puesto-card-anuncio.anuncio-llamando { background: var(--rojo); color: var(--blanco); animation: anuncio-pulso 1.1s ease-in-out infinite; }
+.puesto-card-anuncio.anuncio-llamando { background: var(--oro); color: var(--negro); animation: anuncio-pulso 1.1s ease-in-out infinite; }
 .puesto-card-anuncio.anuncio-listo    { background: #DCFCE7; color: #166534; }
 
 /* ── BOTONES ── */
@@ -550,17 +554,17 @@ body {
 .btn:active { transform: scale(0.98); }
 .btn:disabled { opacity: 0.38; cursor: not-allowed; }
 
-.btn-primario { background: var(--rojo); color: var(--blanco); }
-.btn-primario:hover:not(:disabled) { background: var(--rojo-hover); }
+.btn-primario { background: var(--oro); color: var(--negro); }
+.btn-primario:hover:not(:disabled) { background: var(--oro-hover); }
 
 .btn-atendido { background: var(--negro); color: var(--blanco); }
 .btn-atendido:hover:not(:disabled) { background: #333; }
 
-.btn-ausente { background: #B45309; color: var(--blanco); }
-.btn-ausente:hover:not(:disabled) { background: #92400E; }
+.btn-ausente { background: #475569; color: var(--blanco); }
+.btn-ausente:hover:not(:disabled) { background: #334155; }
 
-.btn-peligro   { background: var(--rojo); color: var(--blanco); flex: 1; }
-.btn-peligro:hover { background: var(--rojo-hover); }
+.btn-peligro   { background: var(--peligro); color: var(--blanco); flex: 1; }
+.btn-peligro:hover { background: var(--peligro-hover); }
 
 .btn-secundario { background: var(--fondo2); color: var(--texto); border: 1px solid var(--borde); flex: 1; }
 .btn-secundario:hover { background: var(--borde); }
@@ -588,7 +592,7 @@ body {
   border: 1px solid var(--borde);
 }
 
-.stat-valor { display: block; font-size: 40px; font-weight: 900; color: var(--rojo); }
+.stat-valor { display: block; font-size: 40px; font-weight: 900; color: var(--oro-texto); }
 .stat-label { font-size: 10px; color: var(--gris); text-transform: uppercase; letter-spacing: 2px; }
 
 /* ── MODAL ── */
@@ -609,13 +613,13 @@ body {
   max-width: 360px;
   width: 90%;
   text-align: center;
-  border-top: 4px solid var(--rojo);
+  border-top: 4px solid var(--peligro);
   box-shadow: 0 24px 64px rgba(0,0,0,0.45);
 }
 
 .modal-icono {
   font-size: 48px;
-  color: var(--rojo);
+  color: var(--peligro);
   margin-bottom: 12px;
 }
 

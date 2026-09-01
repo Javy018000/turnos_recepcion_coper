@@ -9,7 +9,7 @@ PCs, y una pantalla TV muestra a qué recepción debe dirigirse cada persona.
 - Hay **una sola cola** (orden de llegada). Cada recepcionista la atiende desde su propio PC.
 - Al abrir el panel de recepción, cada recepcionista **elige su puesto** (Recepción 1, 2 o 3). La elección se recuerda en ese navegador.
 - Cuando un recepcionista pulsa **"Llamar siguiente"**, el primer turno de la cola se le asigna a *su* puesto. Los demás puestos no se ven afectados.
-- La **TV anuncia el destino**: muestra y dice por voz *"Turno Check-In número 5, diríjase a Recepción 1"*, para que la persona sepa exactamente a dónde ir.
+- La **TV anuncia el destino**: muestra y dice por voz *"Turno Trámite número 5, diríjase a Recepción 1"*, para que la persona sepa exactamente a dónde ir.
 
 ## Requisitos
 
@@ -84,19 +84,19 @@ Cada puesto se protege con un PIN configurable en `puestos.config.json` (en la r
 
 ## Servicios
 
-Los servicios que la persona puede elegir en la tablet están definidos en cinco lugares y
-los cinco deben coincidir:
+Actualmente hay cuatro servicios genéricos: `tramite`, `informacion`, `consulta` y `otro`.
+
+Para cambiarlos hay que tocar cuatro lugares, y los IDs deben coincidir en todos:
 
 | Archivo | Qué define |
 |---|---|
-| `server/turnos.js` → `SERVICIOS_VALIDOS` | Los IDs válidos que acepta el servidor |
-| `server/turnos.js` → `reiniciarDia()` | Contadores que se ponen en cero cada día |
-| `server/persistencia.js` → `contadorServicios` | Contadores del estado inicial |
+| `server/turnos.js` → `SERVICIOS_VALIDOS` | El catálogo. Los contadores se derivan de esta lista |
 | `public/tablet/index.html` → botones `.btn-servicio` | Botones e íconos de la tablet |
 | `ETIQUETAS_SERVICIO` en `tablet.js`, `tv.js` y `recepcion.js` | Nombre visible de cada servicio |
 
-Actualmente son los cuatro heredados del despliegue original: `check-in`, `check-out`,
-`informacion` y `concierge`.
+El servidor tolera el cambio sin borrar nada: al arrancar, `normalizar()` crea un contador
+en cero para cada servicio nuevo y descarta los de servicios que ya no existen, así que un
+`data/state.json` viejo no rompe el arranque.
 
 ## Botones del panel de recepción
 
@@ -132,6 +132,24 @@ Ejemplo: si la IP del servidor es `192.168.1.105`, la tablet abre `http://192.16
 
 - Logo: `public/assets/logo.png` (escudo COPER, PNG con fondo transparente).
 - El nombre visible está en el encabezado de las tres vistas: `public/*/index.html`.
+
+La paleta sale del propio escudo: oro y negro son el 80% de sus píxeles. Los tokens están
+en el `:root` de cada CSS:
+
+| Token | Valor | Para qué |
+|---|---|---|
+| `--oro` | `#F7B101` | Color de marca. Fondos de botón, bordes, texto sobre negro |
+| `--oro-hover` | `#C98F00` | Hover de los fondos en oro |
+| `--oro-texto` | `#8A6A10` | Solo en `recepcion.css`: oro legible sobre fondo claro |
+| `--oro-tinte` | `#FFFBF0` | Solo en `recepcion.css`: fondo de tarjeta seleccionada |
+| `--peligro` | `#C41E1E` | Cancelar, error, sin conexión. No es color de marca |
+
+Dos reglas que hay que respetar al tocar los colores:
+
+1. **Sobre oro el texto va en negro, nunca en blanco.** Blanco sobre `#F7B101` da 1.87:1 de
+   contraste (ilegible); negro da 10.6:1.
+2. **Sobre fondo claro no se usa `--oro` como texto** (1.70:1). Para eso está `--oro-texto`,
+   que da 5.06:1 sobre blanco.
 
 ## Datos persistentes
 

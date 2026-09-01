@@ -12,12 +12,9 @@ const ESTADO_VACIO = {
     '2': { turnoActivo: null },
     '3': { turnoActivo: null }
   },
-  contadorServicios: {
-    'check-in': 0,
-    'check-out': 0,
-    'informacion': 0,
-    'concierge': 0
-  },
+  // El catálogo de servicios vive en server/turnos.js: normalizar() rellena
+  // este objeto con un contador por cada servicio válido.
+  contadorServicios: {},
   atendidosHoy: 0,
   ausentesHoy: 0,
   fecha: ''

@@ -21,10 +21,10 @@ const elBtnVolver        = document.getElementById('btn-volver');
 const elBtnReintentar    = document.getElementById('btn-reintentar');
 
 const ETIQUETAS_SERVICIO = {
-  'check-in':   'Check-In',
-  'check-out':  'Check-Out',
+  'tramite':    'Trámite',
   'informacion':'Información',
-  'concierge':  'Concierge'
+  'consulta':   'Consulta',
+  'otro':       'Otro'
 };
 
 let servicioSeleccionado = null;
