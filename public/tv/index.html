@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turnos – TV | SHBI</title>
+  <link rel="stylesheet" href="tv.css">
+</head>
+<body>
+  <div id="overlay-sonido" class="overlay-sonido">
+    <div class="overlay-caja">
+      <div class="overlay-icono">🔊</div>
+      <p class="overlay-titulo">Toca para activar el sonido</p>
+      <p class="overlay-sub">Necesario una sola vez para anunciar los turnos por voz</p>
+    </div>
+  </div>
+
+  <div class="contenedor">
+
+    <header class="encabezado">
+      <div class="header-izq">
+        <img src="/assets/logo.png" alt="SHBI" class="logo-img">
+      </div>
+      <div class="header-centro">
+        <span class="nombre-l1">SEDE HABITACIONAL</span>
+        <span class="nombre-l2">BICENTENARIO DE LA INDEPENDENCIA</span>
+      </div>
+      <div class="header-der">
+        <span id="reloj" class="reloj">--:--:--</span>
+      </div>
+    </header>
+
+    <main class="principal">
+
+      <section class="panel-activo">
+        <p class="panel-etiqueta">EN ATENCIÓN — DIRÍJASE A SU RECEPCIÓN</p>
+        <ul id="llamados" class="llamados">
+          <li class="llamado-vacio">Esperando llamado</li>
+        </ul>
+      </section>
+
+      <section class="panel-cola">
+        <p class="panel-etiqueta">PRÓXIMOS TURNOS</p>
+        <ul id="lista-cola" class="lista-cola">
+          <li class="cola-vacia">Sin turnos en espera</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <footer class="barra-inferior">
+      <div class="footer-item">
+        <span class="footer-label">EN ESPERA</span>
+        <span class="footer-valor" id="count-espera">0</span>
+      </div>
+      <div class="footer-sep"></div>
+      <span id="estado-conexion" class="estado-desconectado">Conectando...</span>
+    </footer>
+
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="tv.js?v=5"></script>
+</body>
+</html>
